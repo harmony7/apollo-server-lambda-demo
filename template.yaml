@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  apollo-server-lambda-demo
+
+  Apollo Server lambda demo for subscriptions-transport-ws-over-http
+
+Parameters:
+  GraphqlUrl:
+    Type: String
+    Default: '/Prod/graphql'
+  GripUrl:
+    Type: String
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 15
+
+Resources:
+  ApolloServerLambdaDemoFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: build/
+      Handler: index.handler
+      Runtime: nodejs12.x
+      Environment:
+        Variables:
+          GRAPHQL_URL: !Ref GraphqlUrl
+          GRIP_URL: !Ref GripUrl
+      Events:
+        HelloWorld:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /graphql
+            Method: ANY
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  ApolloServerLambdaDemoApi:
+    Description: "API Gateway endpoint URL for Prod stage for Apollo Server lambda demo function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/graphql/"
+  ApolloServerLambdaDemoFunction:
+    Description: "Apollo Server lambda demo Lambda Function ARN"
+    Value: !GetAtt ApolloServerLambdaDemoFunction.Arn
+  ApolloServerLambdaDemoFunctionIamRole:
+    Description: "Implicit IAM Role created for Apollo Server lambda demo function"
+    Value: !GetAtt ApolloServerLambdaDemoFunctionRole.Arn
