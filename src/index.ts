@@ -82,5 +82,11 @@ const server = new ApolloServer({
 
 // And create the handler, specifying the GRIP url.
 exports.handler = server.createHandler({
-    grip: process.env.GRIP_URL!
+    grip: process.env.GRIP_URL!,
+    persistence: {
+        tableName: process.env.DYNAMODB_TABLE_NAME!,
+        awsRegion: process.env.DYNAMODB_AWS_REGION!,
+        awsAccessKeyId: process.env.DYNAMODB_AWS_ACCESS_KEY_ID!,
+        awsSecretAccessKey: process.env.DYNAMODB_AWS_SECRET_ACCESS_KEY!,
+    },
 });
