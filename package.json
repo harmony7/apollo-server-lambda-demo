@@ -19,7 +19,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@fanoutio/apollo-server-lambda-grip": "0.1.0-alpha.0",
+    "@fanoutio/apollo-server-lambda-grip": "0.1.0-alpha.4",
     "apollo-server-lambda": "^2.19.0",
     "graphql": "^15.4.0",
     "graphql-subscriptions": "^1.1.0",
